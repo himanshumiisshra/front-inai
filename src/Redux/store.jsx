@@ -34,7 +34,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./authSlice"; 
-
+import noteReducer from "./noteSlice";
+import {thunk} from "redux-thunk";
 
 const persistConfig = {
   key: "auth",
@@ -43,16 +44,18 @@ const persistConfig = {
 
 
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+const persistedNoteReducer = persistReducer(persistConfig, noteReducer);
 
 
 const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
+    note: persistedNoteReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false, 
-    }),
+    })
 });
 
 

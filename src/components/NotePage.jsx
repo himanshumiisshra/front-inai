@@ -19,7 +19,7 @@ const NotePage = () => {
   const [loading, setLoading] = useState(false);
 
   const hm = useSelector((state) => state.note);
-  // console.log(hm);
+   console.log("checking for hm data selector notePage",hm);
 
   const user = JSON.parse(localStorage.getItem("userInfo"));
   // console.log(user.accessToken);
@@ -35,7 +35,7 @@ const NotePage = () => {
   useEffect(() => {
     setNotes(hm.notes);
   }, [hm]);
-  // console.log(notes, "notes");
+  console.log(notes, "notes");
   const userData = {
     title,
     content,
@@ -55,7 +55,7 @@ const NotePage = () => {
       });
     }
     dispatch(addNoteThunk(userData)).then((res) => {
-      // console.log(res);
+      console.log(res);
       if (res.payload.data.success) {
         toast.success(`${res.payload.data.msg}`, {
           position: "top-right",
