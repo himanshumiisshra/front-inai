@@ -48,7 +48,7 @@ function App() {
             </Typography>
             {isLoggedIn ? (
               <>
-                <Button colcor="inherit" onclick={handleClickOpen}>
+                <Button colcor="inherit" onClick={handleClickOpen}>
                   Logout
                 </Button>
                 <Dialog open={open} onClose={handleClose}>
