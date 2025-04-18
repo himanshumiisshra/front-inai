@@ -6,6 +6,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Button, AppBar, Toolbar, Typography } from "@mui/material";
 import Login from "./components/Login";
 import SignUp from "./components/Signup";
+import NotePage from "./components/NotePage";
+
 
 
 function App() {
@@ -92,6 +94,7 @@ function App() {
         <div style={{ marginTop: "5vh" }}>
           <Routes>
             <Route path="/" exact element={<Login />} />
+            <Route path="/notePage" exact element={<NotePage />} />
             <Route path="/signup" exact element={<SignUp />} />
             <Route path="/login" exact element={<Login />} />
           </Routes>
