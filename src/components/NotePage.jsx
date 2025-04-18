@@ -14,108 +14,74 @@ const NotePage = () => {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [open, setOpen] = React.useState(false);
-  const [notes, setNotes] = useState([]);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const hm = useSelector((state) => state.note);
-   console.log("checking for hm data selector notePage",hm);
-
-  const user = JSON.parse(localStorage.getItem("userInfo"));
-  // console.log(user.accessToken);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (value) => {
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    setNotes(hm.notes);
-  }, [hm]);
-  console.log(notes, "notes");
-  const userData = {
-    title,
-    content,
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!(title && content)) {
-      toast.error(`Please enter something to add a note`, {
-        position: "top-right",
-        // theme: "DARK",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-    }
-    dispatch(addNoteThunk(userData)).then((res) => {
-      console.log(res);
-      if (res.payload.data.success) {
-        toast.success(`${res.payload.data.msg}`, {
-          position: "top-right",
-          // theme: "DARK",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-        setContent("");
-        setTitle("");
-      }
-
-      setOpen(false);
-
-      const currentNote = {
-        title: title,
-        content: content,
-        _id: 1,
-      };
-
-      setNotes([currentNote, ...notes]);
-      return res;
-    });
-  };
-
-  useEffect(() => {
-    setLoading(hm.isLoading);
-  }, [hm]);
+  const { notes, isLoading } = useSelector((state) => state.note);
 
   useEffect(() => {
     dispatch(getAllNotesThunk());
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
+
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!title.trim() || !content.trim()) {
+      toast.error("Please enter both title and content", {
+        position: "top-right",
+        autoClose: 5000,
+        draggable: true,
+      });
+      return;
+    }
+
+    const userData = { title, content };
+
+    dispatch(addNoteThunk(userData)).then((res) => {
+      if (res.payload?.data?.success) {
+        toast.success(res.payload.data.msg, {
+          position: "top-right",
+          autoClose: 5000,
+          draggable: true,
+        });
+        setTitle("");
+        setContent("");
+        setOpen(false);
+      }
+    });
+  };
 
   return (
     <>
-      {/* create note */}
+      {/* CREATE NOTE BUTTON */}
       <Button
         variant="outlined"
         onClick={handleClickOpen}
         style={{
-          alignItems: "center",
           backgroundColor: "gold",
-          justifyContent: "center",
-          display: "flex",
-          textAlign: "center",
-          marginBottom: "3vw",
           color: "black",
-          // position: "absolute",
+          marginBottom: "3vw",
           left: "50%",
           transform: "translateX(-50%)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         CREATE NEW NOTE
       </Button>
 
+      {/* CREATE NOTE DIALOG */}
       <Dialog open={open} onClose={handleClose}>
         <div className="dialog-class">
-          <DialogTitle fontSize={"20px"}> NEW NOTE</DialogTitle>
+          <DialogTitle fontSize="20px">NEW NOTE</DialogTitle>
           <form className="form-class" onSubmit={handleSubmit}>
             <label className="label-class">Title</label>
             <input
@@ -129,14 +95,14 @@ const NotePage = () => {
             <textarea
               id="desc-class"
               rows={5}
-              placeholder="Enter description "
+              placeholder="Enter description"
               value={content}
               onChange={(e) => setContent(e.target.value)}
             ></textarea>
             <button type="submit" className="add">
               ADD
             </button>
-            {loading ? (
+            {loading && (
               <div className="loading-overlay">
                 <ReactBootstrap.Spinner
                   animation="border"
@@ -144,10 +110,12 @@ const NotePage = () => {
                   variant="success"
                 />
               </div>
-            ) : null}
+            )}
           </form>
         </div>
       </Dialog>
+
+      {/* NOTE LIST DISPLAY */}
       <NoteList notes={notes} />
       <ToastContainer />
     </>

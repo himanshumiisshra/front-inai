@@ -183,7 +183,7 @@ const Login = () => {
 
       setTimeout(() => {
         navigate("/notePage");
-      }, 3000);
+      },1000);
     }
 
     if (isError && response !== "") {

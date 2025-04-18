@@ -10,83 +10,84 @@ const initialState = {
   response: "",
 };
 
-export const registerUser = createAsyncThunk("auth/signup", async (data) => {
-  return await Api.post(`signup`, data)
-    .then((res) => {
-      console.log(res);
-      return res;
-    })
-    .catch((err) => {
-      console.log(err);
-      return err.response;
-    });
+export const registerUser = createAsyncThunk("auth/signup", async (data, thunkAPI) => {
+  try {
+    const res = await Api.post("signup", data);
+    return res.data;
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err.response?.data || { msg: "Something went wrong." });
+  }
 });
 
-export const loginUser = createAsyncThunk("auth/login", async (data) => {
-  return await Api.post(`login`, data)
-    .then((res) => {
-      console.log(res);
-      return res;
-    })
-    .catch((err) => {
-      console.log(err);
-      return err.response;
-    });
+export const loginUser = createAsyncThunk("auth/login", async (data, thunkAPI) => {
+  try {
+    const res = await Api.post("login", data);
+    return res.data;
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err.response?.data || { msg: "Something went wrong." });
+  }
 });
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: initialState,
-  reducers: {},
+  initialState,
+  reducers: {
+    resetAuthState: (state) => {
+      state.isError = false;
+      state.isSuccess = false;
+      state.isLoading = false;
+      state.response = "";
+    },
+  },
   extraReducers: (builder) => {
     builder
-
-      //  REGISTER USER
+      // REGISTER USER
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
+        state.isError = false;
+        state.isSuccess = false;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.response = action.payload.data.msg;
-        // console.log(action.payload);
-        if (action.payload.data.success) {
+        state.response = action.payload.msg;
+        if (action.payload.success) {
           state.isSuccess = true;
-          state.profile = action.payload.data;
-
-          state.user = action.payload.data.user;
+          state.profile = action.payload;
+          state.user = action.payload.user;
         } else {
-          state.isSuccess = false;
           state.isError = true;
         }
       })
-      .addCase(registerUser.rejected, (state) => {
-        state.isLoading = true;
+      .addCase(registerUser.rejected, (state, action) => {
+        state.isLoading = false;
         state.isError = true;
+        state.response = action.payload?.msg || "Registration failed.";
       })
 
       // LOGIN USER
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
+        state.isError = false;
+        state.isSuccess = false;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.response = action.payload.data.msg;
-
-        console.log(action.payload);
-        if (action.payload.data.success) {
+        state.response = action.payload.msg;
+        if (action.payload.success) {
           state.isSuccess = true;
-          state.user = action.payload.data.user;
-          state.profile = action.payload.data;
+          state.user = action.payload.user;
+          state.profile = action.payload;
         } else {
-          state.isSuccess = false;
           state.isError = true;
         }
       })
-      .addCase(loginUser.rejected, (state) => {
-        state.isLoading = true;
+      .addCase(loginUser.rejected, (state, action) => {
+        state.isLoading = false;
         state.isError = true;
+        state.response = action.payload?.msg || "Login failed.";
       });
   },
 });
 
+export const { resetAuthState } = authSlice.actions;
 export default authSlice.reducer;
