@@ -15,6 +15,7 @@ export const addNoteThunk = createAsyncThunk(
   async (data) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     // console.log(user.accessToken);
+    
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -22,7 +23,12 @@ export const addNoteThunk = createAsyncThunk(
       },
     };
 
-    return await Api.post(`notes/create_note`, data, config)
+    const payload = {
+      ...data,
+      userId: user.id,
+    };
+
+    return await Api.post(`notes/create_note`, payload, config)
       .then((res) => {
         // console.log(res);
         return res;
@@ -39,10 +45,12 @@ export const getAllNotesThunk = createAsyncThunk(
   async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     // console.log(user.accessToken);
+    console.log("userData from local storrage",user)
     const config = {
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${user.accessToken}`,
+        userid: `${user.id}`
       },
     };
 
@@ -61,6 +69,7 @@ export const getAllNotesThunk = createAsyncThunk(
 export const editNoteThunk = createAsyncThunk(
   "notes/edit_note",
   async (data) => {
+    console.log("checking for data ",data)
     const user = JSON.parse(localStorage.getItem("userInfo"));
     // console.log(user.accessToken);
     const config = {
@@ -86,7 +95,7 @@ export const deleteNoteThunk = createAsyncThunk(
   "notes/delete_note",
   async (noteID) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
-    // console.log(user.accessToken);
+    console.log(user.accessToken);
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -95,7 +104,7 @@ export const deleteNoteThunk = createAsyncThunk(
     };
     // console.log(noteID);
     // console.log(`notes/delete_note/${noteID}`);
-    return await Api.delete(`notes/delete_note/${noteID}`, noteID, config)
+    return await Api.delete(`notes/delete_note/${noteID}`, config)
       .then((res) => {
         // console.log(res);
         return res;

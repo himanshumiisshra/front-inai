@@ -10,6 +10,7 @@ import del from ".././Assets/bin.svg";
 import * as ReactBootstrap from "react-bootstrap";
 
 const NoteCard = ({ noteID, noteId, id, title, content }) => {
+  console.log("checking for note id", noteID, noteId)
   const dispatch = useDispatch();
   const sm = useSelector((state) => state.note);
 
@@ -48,7 +49,7 @@ const NoteCard = ({ noteID, noteId, id, title, content }) => {
   const handleEdit = (e) => {
     e.preventDefault();
     setEditID(id);
-
+    console.log("checkin userDAta", userData)
     dispatch(editNoteThunk(userData)).then((res) => {
       console.log(res);
       if (res.payload.data.success) {

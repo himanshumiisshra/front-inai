@@ -9,9 +9,9 @@ const NoteList = ({ notes }) => {
         <div className="note-class">
           {notes &&
             notes.map((note) => {
-              // {
-              //   console.log(note);
-              // }
+              {
+                console.log(note);
+              }
 
               return (
                 <NoteCard

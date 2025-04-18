@@ -1,38 +1,267 @@
-.App {
-  text-align: center;
+.link a {
+  text-decoration: none;
+  color: black;
+  font-weight: bolder;
+  font-size: 17px;
+}
+.spinner {
+  /* position: relative; */
+  /* top: 53%;
+  left: 46%; */
+  /* margin-top: -6vh; */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1;
+  /* Make sure the loader appears on top of the button */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.dialog-class {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding: 20px 20px;
+  width: 30vw;
+}
+
+.form-class {
+  display: flex;
+  flex-direction: column;
+}
+
+.label-class {
+  font-family: sans-serif;
+  font-size: 20px;
+}
+#input-class {
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  font-size: 18px;
+  height: 40px;
+  width: 24vw;
+  border: 1px solid black;
+  margin-bottom: 16px;
+  margin-top: 10px;
+  padding: 5px 5px;
+}
+#desc-class {
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  padding: 5px 5px;
+  font-size: 18px;
+  height: 90px;
+  width: 26vw;
+  border: 1px solid black;
+  margin-bottom: 16px;
+  margin-top: 10px;
+}
+.add {
+  width: 10vw;
+  height: 40px;
+  background-color: gold;
+  color: black;
+  cursor: pointer;
+  margin-top: 20px;
+  border: none;
+}
+
+body {
+  /* display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center; */
+  height: 100vh;
+  background-color: #f3f3f3;
 }
 
-.App-link {
-  color: #61dafb;
+.all-notes {
+  margin: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.note-card {
+  border-radius: 10px;
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  border-top: 10px solid gold;
+
+  background-color: white;
+  margin: 10px;
+  padding: 20px;
+}
+
+.note-card:hover {
+  transform: translateY(-5px);
+}
+
+.note-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 10px;
+  margin-top: 17px;
+}
+
+.note-content {
+  color: black;
+  font-size: 18px;
+}
+
+.note-class {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+}
+
+.btns {
+  display: flex;
+  margin-left: 13vw;
+}
+
+.edit-btn {
+  width: 30px;
+  height: 30px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+.delete-btn {
+  width: 30px;
+  height: 30px;
+  outline: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin-left: 1vw;
+}
+
+.two-btns {
+  display: flex;
+}
+
+.del {
+  margin-left: 1.9vw;
+}
+
+@media (max-width: 900px) {
+  .dialog-class {
+    width: 47vw;
   }
-  to {
-    transform: rotate(360deg);
+  .add {
+    margin-top: 10px;
+  }
+  #input-class {
+    width: 33vw;
+  }
+  #desc-class {
+    width: 37vw;
+  }
+}
+
+@media (max-width: 800px) {
+  .dialog-class {
+    width: 50vw;
+  }
+  .add {
+    margin-top: 8px;
+  }
+  #input-class {
+    width: 36vw;
+  }
+  #desc-class {
+    width: 42vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .dialog-class {
+    width: 50vw;
+  }
+  .add {
+    margin-top: 8px;
+  }
+  #input-class {
+    width: 36vw;
+  }
+  #desc-class {
+    width: 42vw;
+  }
+  .label-class {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 420px) {
+  .dialog-class {
+    width: 69vw;
+  }
+  .add {
+    width: 16vw;
+    height: 36px;
+    margin-top: 8px;
+  }
+  #input-class {
+    width: 43vw;
+  }
+  #desc-class {
+    width: 48vw;
+  }
+  .label-class {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 380px) {
+  .dialog-class {
+    width: 79vw;
+  }
+  .add {
+    width: 17vw;
+    height: 36px;
+    margin-top: 8px;
+  }
+  #input-class {
+    width: 55vw;
+  }
+  #desc-class {
+    width: 63vw;
+  }
+  .label-class {
+    font-size: 17px;
+  }
+  .all-notes {
+    margin: 4px;
+  }
+
+  .note-card {
+    border-radius: 9px;
+
+    margin: 7px;
+    padding: 20px;
+  }
+
+  .note-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .note-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 10px;
+  }
+
+  .note-content {
+    color: black;
+    font-size: 18px;
   }
 }
