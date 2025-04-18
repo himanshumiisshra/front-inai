@@ -51,11 +51,11 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // Required for redux-persist to avoid warnings
+      serializableCheck: false, 
     }),
 });
 
-// Create the persistor
+
 const persistor = persistStore(store);
 
 export { store, persistor };
