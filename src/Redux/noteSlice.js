@@ -13,7 +13,8 @@ const initialState = {
 export const addNoteThunk = createAsyncThunk(
   "notes/createNote",
   async (data) => {
-    const user = JSON.parse(localStorage.getItem("userInfo"));
+    const userInfo = localStorage.getItem("userInfo");
+    const user = userInfo ? JSON.parse(userInfo) : null;
     // console.log(user.accessToken);
     
     const config = {

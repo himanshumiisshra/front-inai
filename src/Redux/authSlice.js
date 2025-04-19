@@ -5,6 +5,8 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  isLoginSuccess: false,
+  isSignupSuccess: false,
   user: {},
   profile: "",
   response: "",
@@ -37,6 +39,9 @@ export const authSlice = createSlice({
       state.isSuccess = false;
       state.isLoading = false;
       state.response = "";
+
+      state.isSignupSuccess = false;
+      state.isLoginSuccess = false;
     },
   },
   extraReducers: (builder) => {
@@ -52,10 +57,12 @@ export const authSlice = createSlice({
         state.response = action.payload.msg;
         if (action.payload.success) {
           state.isSuccess = true;
+          state.isSignupSuccess = true;
           state.profile = action.payload;
           state.user = action.payload.user;
         } else {
           state.isError = true;
+          state.isSignupSuccess = false;
         }
       })
       .addCase(registerUser.rejected, (state, action) => {
@@ -74,11 +81,13 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.response = action.payload.msg;
         if (action.payload.success) {
+          state.isLoginSuccess = true;
           state.isSuccess = true;
           state.user = action.payload.user;
           state.profile = action.payload;
         } else {
           state.isError = true;
+          state.isLoginSuccess = false;
         }
       })
       .addCase(loginUser.rejected, (state, action) => {

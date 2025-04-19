@@ -17,7 +17,7 @@ const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoading, isSuccess, response, profile } = useSelector(
+  const { isLoading,isSignupSuccess, isSuccess, response, profile } = useSelector(
     (state) => state.auth
   );
 
@@ -30,26 +30,26 @@ const Signup = () => {
   }, [isLoading]);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSignupSuccess) {
       toast.success(response, {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 1000,
         draggable: true,
       });
 
-      localStorage.setItem("userInfo", JSON.stringify(profile));
+      // localStorage.setItem("userInfo", JSON.stringify(profile));
 
       setTimeout(() => {
-        navigate("/notePage");
-      }, 6000);
+        navigate("/login");
+      }, 1000);
     } else if (response !== "") {
       toast.error(response, {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 1000,
         draggable: true,
       });
     }
-  }, [isSuccess, response, profile, navigate]);
+  }, [isSignupSuccess, response, profile, navigate]);
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ const Signup = () => {
     if (!email || !password) {
       toast.error("Please fill in all fields", {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
       });
       return;
     }
@@ -101,7 +101,7 @@ const Signup = () => {
             fullWidth
             variant="contained"
             style={{
-              backgroundColor: "gold",
+              backgroundColor: "cyan",
               color: "black",
               marginTop: "4vh",
               marginBottom: "4vh",

@@ -155,7 +155,7 @@ import { Spinner } from "react-bootstrap";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading, isSuccess, isError, response, profile } = useSelector(
+  const { isLoading, isLoginSuccess,isSuccess, isError, response, profile } = useSelector(
     (state) => state.auth
   );
 
@@ -169,7 +169,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isLoginSuccess) {
       toast.success(response, {
         position: "top-right",
         autoClose: 3000,
@@ -196,7 +196,7 @@ const Login = () => {
         draggable: true,
       });
     }
-  }, [isSuccess, isError, response, profile, navigate]);
+  }, [isLoginSuccess, isError, response, profile, navigate]);
 
   return (
     <>

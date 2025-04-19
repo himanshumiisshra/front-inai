@@ -48,12 +48,14 @@ const NotePage = () => {
       if (res.payload?.data?.success) {
         toast.success(res.payload.data.msg, {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 2000,
           draggable: true,
         });
         setTitle("");
         setContent("");
         setOpen(false);
+
+        dispatch(getAllNotesThunk());
       }
     });
   };
@@ -65,7 +67,7 @@ const NotePage = () => {
         variant="outlined"
         onClick={handleClickOpen}
         style={{
-          backgroundColor: "gold",
+          backgroundColor: "cyan",
           color: "black",
           marginBottom: "3vw",
           left: "50%",
